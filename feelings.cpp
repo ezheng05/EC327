@@ -15,11 +15,11 @@ using namespace std;
  */
 
 
-void createbutton(sf::Text &button, sf::Font &font, string &button_name, float xposition, float yposition){
+void createbutton(sf::Text &button, sf::Font &font, const string &button_name, float xposition, float yposition){
     button.setFont(font);
     button.setString(button_name);
     button.setCharacterSize(24);
-    button.setFillColor(sf::Color::White);
+    button.setFillColor(sf::Color::Magenta);
     button.setPosition(xposition, yposition);
 }
 
@@ -30,7 +30,7 @@ void createbutton(sf::Text &button, sf::Font &font, string &button_name, float x
 * @param buttons: this vector of SFML text objects represents the buttons
 */
 
-int handle_events(sf::RenderWindow &window, sf::Event &event, vector<sf::Text> &buttons){
+int handle_events(sf::RenderWindow &window, sf::Event &event,const vector<sf::Text> &buttons){
     while(window.pollEvent(event)){
             if(event.type==sf::Event::Closed) window.close();
             
@@ -52,46 +52,46 @@ string suggestions(string &selected_feeling,string &selected_energy){
         return "That's amazing!Reward yourself!";
     }
     else if(selected_feeling=="Happy"&& selected_energy=="Moderate Energy"){
-        return "It's amazing that you're happy!\n Try to do something to give yourself an energy boost! \n chat with a friend, make a refreshing beverage\n ,stretch, reconnect with nature!";
+        return "It's amazing that you're happy!\nTry to do something to give yourself an energy boost! \nchat with a friend, make a refreshing beverage\n,stretch, reconnect with nature!";
     }
     else if(selected_feeling=="Happy"&& selected_energy=="Low Energy"){
-        return "It's amazing that you're happy!\n Try to do something to give yourself an energy boost! \n chat with a friend, make a refreshing beverage\n ,stretch, reconnect with nature!";
+        return "It's amazing that you're happy!\nTry to do something to give yourself an energy boost! \nchat with a friend, make a refreshing beverage\n,stretch, reconnect with nature!";
     }
     else if(selected_feeling=="Sad"&& selected_energy=="High Energy"){
-        return "Let's focus on bringing your mood up.\n Think about what you love to do that's\n guaranteed to increase your morale.\n  Perhaps go for a walk, journal,\n or simply vent to someone you trust ";
+        return "Let's focus on bringing your mood up.\nThink about what you love to do that's\nguaranteed to increase your morale.\nPerhaps go for a walk, journal,\nor simply vent to someone you trust ";
     }
      else if(selected_feeling=="Sad"&& selected_energy=="Moderate Energy"){
-        return "Let's focus on bringing your mood up.\n Think about what you love to do that's\n guaranteed to increase your morale.\n  Perhaps go for a walk, journal,\n or simply vent to someone you trust ";
+        return "Let's focus on bringing your mood up.\nThink about what you love to do that's\nguaranteed to increase your morale.\nPerhaps go for a walk, journal,\nor simply vent to someone you trust ";
     }
      else if(selected_feeling=="Sad"&& selected_energy=="Low Energy"){
-        return "Let's focus on bringing both your mood and energy up.\n Perhaps focusing on lifting your energy will reflect on\n your mood Think about the optimal activity that will\n lift your energy up Maybe you could go on a small\n walk and grab yourself a treat, maybe excercise\n for a bit to increase the production of endorphins\n for a mood and energy lift at the same time! ";
+        return "Let's focus on bringing both your mood and energy up.\nPerhaps focusing on lifting your energy will reflect on\nyour mood Think about the optimal activity that will\nlift your energy up Maybe you could go on a small\nwalk and grab yourself a treat, maybe excercise\nfor a bit to increase the production of endorphins\nfor a mood and energy lift at the same time! ";
     }
     else if(selected_feeling=="Anxious"&& selected_energy=="High Energy"){
-        return "Let's focus on easing your anxiety, \n perform breathing excercises to decrease\n stress hormones and re-center your mind.\n First, exhale through your mouth, then close your mouth\n and inhale through your nose Hold your breath for a while\n and repeat the steps";
+        return "Let's focus on easing your anxiety, \nperform breathing excercises to decrease\nstress hormones and re-center your mind.\nFirst, exhale through your mouth, then close your mouth\nand inhale through your nose Hold your breath for a while\nand repeat the steps";
     }
      else if(selected_feeling=="Anxious"&& selected_energy=="Moderate Energy"){
-        return "Let's focus on easing your anxiety, \n perform breathing excercises to decrease\n stress hormones and re-center your mind.\n First, exhale through your mouth, then close your mouth\n and inhale through your nose Hold your breath for a while\n and repeat the steps";
+        return "Let's focus on easing your anxiety, \nperform breathing excercises to decrease\nstress hormones and re-center your mind.\nFirst, exhale through your mouth, then close your mouth\nand inhale through your nose Hold your breath for a while\nand repeat the steps";
     }
      else if(selected_feeling=="Anxious"&& selected_energy=="Low Energy"){
-        return "Let's focus on easing your anxiety as well as\n lifting your energy, First perform breathing\n excercises to decrease stress hormones and re-center\n your mind. First, exhale through your mouth,\n then close your mouth and inhale through your nose\n Hold your breath for a while and repeat the steps\n Once you feel that your anxiety has calmed\n if you're still up for it, try to lift your energy up by\n doing something that won't overstimulate you\n Avoid intense excercise and instead try\n going for a walk for increased endorphin\n production while simultaneously\n regulating your nervous system ";
+        return "Let's focus on easing your anxiety as well as\nlifting your energy, First perform breathing\nexcercises to decrease stress hormones and re-center\nyour mind. First, exhale through your mouth,\nthen close your mouth and inhale through your nose\nHold your breath for a while and repeat the steps\nOnce you feel that your anxiety has calmed\nif you're still up for it, try to lift your energy up by\ndoing something that won't overstimulate you\nAvoid intense excercise and instead try\ngoing for a walk for increased endorphin\nproduction while simultaneously\nregulating your nervous system ";
     }
      else if(selected_feeling=="Apathetic"&& selected_energy=="High Energy"){
-        return "Let's try to lift up your mood.\n Think about activities that you'd enjoy\n that will lift your morale\n Since your energy level is\n high. Try excercising to increase endorphin production\n to lift up your mood!";
+        return "Let's try to lift up your mood.\nThink about activities that you'd enjoy\nthat will lift your morale\nSince your energy level is\nhigh. Try excercising to increase endorphin production\nto lift up your mood!";
     }
     else if(selected_feeling=="Apathetic"&& selected_energy=="Moderate Energy"){
-        return "Let's try to lift up your mood.\n Think about activities that you'd enjoy\n that will lift your morale.\n Try excercising to increase endorphin production to lift\n up your mood!";
+        return "Let's try to lift up your mood.\nThink about activities that you'd enjoy\nthat will lift your morale.\nTry excercising to increase endorphin production to lift\nup your mood!";
     }
      else if(selected_feeling=="Apathetic"&& selected_energy=="Low Energy"){
-        return "Let's try to lift up your mood and energy.\n First, think about activities that you'd enjoy\n that will lift your morale\n Since your energy level is\n low. Try going for a walk to increase endorphin production\n to lift up your mood and energy while\n simultaneously not over-exerting yourself";
+        return "Let's try to lift up your mood and energy.\nFirst, think about activities that you'd enjoy\nthat will lift your morale\nSince your energy level is\nlow. Try going for a walk to increase endorphin production\nto lift up your mood and energy while\nsimultaneously not over-exerting yourself";
      }
     else if(selected_feeling=="Angry"&& selected_energy=="High Energy"){
-        return "Breathe and think about the following.\n Is the thing that's making you feel\n angry going to matter in 72 hours?\n If not, try avoid making impulsive decisions by\n distracting yourself from the situation.\n Going for a walk and fresh air may be\n the best solution to distract yourself\n and reflect on how to best handle the situation";
+        return "Breathe and think about the following.\nIs the thing that's making you feel\nangry going to matter in 72 hours?\nIf not, try to avoid making impulsive decisions by\ndistracting yourself from the situation.\nGoing for a walk and fresh air may be\nthe best solution to distract yourself\nand reflect on how to best handle the situation";
      }
      else if(selected_feeling=="Angry"&& selected_energy=="Moderate Energy"){
-        return "Breathe and think about the following.\n Is the thing that's making you feel\n angry going to matter in 72 hours?\n If not, try avoid making impulsive decisions by\n distracting yourself from the situation.\n Going for a walk and fresh air may be\n the best solution to distract yourself\n and reflect on how to best handle the situation";
+        return "Breathe and think about the following.\nIs the thing that's making you feel\nangry going to matter in 72 hours?\nIf not, try to avoid making impulsive decisions by\ndistracting yourself from the situation.\nGoing for a walk and fresh air may be\nthe best solution to distract yourself\nand reflect on how to best handle the situation";
      }
      else if(selected_feeling=="Angry"&& selected_energy=="Low Energy"){
-        return "Breathe and think about the following.\n Is the thing that's making you feel\n angry going to matter in 72 hours?\n If not, try avoid making impulsive decisions by\n distracting yourself from the situation.\n Going for a walk and fresh air may be\n the best solution to distract yourself\n and reflect on how to best handle the situation";
+        return "Breathe and think about the following.\nIs the thing that's making you feel\nangry going to matter in 72 hours?\nIf not, try to avoid making impulsive decisions by\ndistracting yourself from the situation.\nGoing for a walk and fresh air may be\nthe best solution to distract yourself\nand reflect on how to best handle the situation";
      }
     
     return "you have selected " + selected_feeling + " & " + selected_energy;
@@ -99,35 +99,45 @@ string suggestions(string &selected_feeling,string &selected_energy){
 
 int main(){
     sf::RenderWindow window(sf::VideoMode(800, 600), "My Feelings");
+    sf::Texture image;
+     if(!image.loadFromFile("pic_teddy.jpeg")){
+        cerr<<"error loading image"<<endl;
+        return -1;
+    }
+    sf::Sprite sprite(image);
+    sprite.setPosition(500,250);
+    sprite.scale(0.5,0.5);
     vector<string> feeling={"Happy", "Sad", "Anxious", "Apathetic", "Angry"};
     vector<string> energy={"High Energy", "Moderate Energy", "Low Energy"};
     vector<sf::Text> feeling_buttons(feeling.size());
     vector<sf::Text> energy_buttons(energy.size());
+    sf::Text reset_button;
     sf::Font font;
     if(!font.loadFromFile("/Library/Fonts/Arial Unicode.ttf")){
         cerr<<"error loading font"<<endl;
         return -1;
     }
 
-sf::RectangleShape message_box(sf::Vector2f(500,100));
-message_box.setFillColor(sf::Color(0,0,0,150));
-message_box.setPosition(200,250);
-sf::Text message_text;
-message_text.setFont(font);
-message_text.setCharacterSize(24);
-message_text.setFillColor(sf::Color::White);
-message_text.setPosition(150,275);
+    sf::RectangleShape message_box(sf::Vector2f(500,100));
+    message_box.setFillColor(sf::Color(0,0,0,150));
+    message_box.setPosition(200,250);
+    sf::Text message_text;
+    message_text.setFont(font);
+    message_text.setCharacterSize(24);
+    message_text.setFillColor(sf::Color::Magenta);
+    message_text.setPosition(50,100);
 
     for(int i=0;i<feeling.size();++i){
         createbutton(feeling_buttons[i],font,feeling[i],100,50+i*50);
     }
 
-      for(int i=0;i<energy.size();++i){
+    for(int i=0;i<energy.size();++i){
         createbutton(energy_buttons[i],font,energy[i],100,50+i*50);
     }
-
-bool show_feelings=true;
-bool show_message=false;
+    createbutton(reset_button,font,"Go back to main page",500,550);
+    
+    bool show_feelings=true;
+    bool show_message=false;
     while(window.isOpen()){
         sf::Event event;
         int selected_feeling, selected_energy;
@@ -136,30 +146,44 @@ bool show_message=false;
             if(selected_feeling != -1){
                 cout<<feeling[selected_feeling]<<"\n";
                 show_feelings=false;
-                window.clear();
-
+                window.clear(sf::Color::White);
+                window.draw(sprite);
                 for(auto &button:energy_buttons){
                     window.draw(button);
             }
-
             window.display();
             }
         }
-        else{
+        else if(!show_message){
             selected_energy=handle_events(window,event,energy_buttons);
             if(selected_energy!= -1){
                 cout<<energy[selected_energy]<<"\n";
                 string message=suggestions(feeling[selected_feeling],energy[selected_energy]);
                 message_text.setString(message);
                 show_message=true;
-                window.clear();
-                //window.draw(message_box);
+                window.clear(sf::Color::White);
+                window.draw(sprite);
                 window.draw(message_text);
+                window.draw(reset_button);
                 window.display();
             }
         }
+        else{
+            int clicked_reset=handle_events(window,event,vector<sf::Text>{reset_button});
+            if(clicked_reset!=-1){
+                show_feelings=true;
+                show_message=false;
+                window.clear(sf::Color::White);
+                for(auto &button:feeling_buttons){
+                    window.draw(button);
+                  }
+                  window.draw(sprite);
+                  window.display();
+            }
+        }
         if(!show_message){
-            window.clear();
+            window.clear(sf::Color::White);
+            window.draw(sprite);
             if(show_feelings){
                 for(auto &button:feeling_buttons){
                     window.draw(button);
@@ -172,7 +196,6 @@ bool show_message=false;
             }
 
             }
-
             window.display();
             }
 
