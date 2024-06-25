@@ -6,15 +6,14 @@
 using namespace std;
 
 /**
-* \brief this function is used to create a button using SFML text object
-* @param button: this SFML text object is used to represent the button
-* @param Font: this SFML test object is used to represent the font of the button's text   
-* @param buttonName: the string to be displayed within the button
-* @param xPosition : determine the respective x coordinate of the button
-* @param yPosition : determine the respective x coordinate of the button 
+ * This function is used to create a button using SFML text object
+ * 
+ * @param button: this SFML text object is used to represent the button
+ * @param Font: this SFML test object is used to represent the font of the button's text   
+ * @param buttonName: the string to be displayed within the button
+ * @param xPosition : determine the respective x coordinate of the button
+ * @param yPosition : determine the respective x coordinate of the button 
  */
-
-
 void createbutton(sf::Text &button, sf::Font &font, const string &button_name, float xposition, float yposition){
     button.setFont(font);
     button.setString(button_name);
@@ -24,12 +23,13 @@ void createbutton(sf::Text &button, sf::Font &font, const string &button_name, f
 }
 
 /**
-* \brief this function is meant to handle events and check if the mouse clicks on any button
-* @param window:this SFML window object is the main window of the program
-* @param event:this SFML event object is used to define a system event and its parameters 
-* @param buttons: this vector of SFML text objects represents the buttons
+ * This function is meant to handle events and check if the mouse clicks on any button
+ *
+ * @param window:this SFML window object is the main window of the program
+ * @param event:this SFML event object is used to define a system event and its parameters 
+ * @param buttons: this vector of SFML text objects represents the buttons
+ * @return the index of the clicked button or -1 if no button is clicked
 */
-
 int handle_events(sf::RenderWindow &window, sf::Event &event,const vector<sf::Text> &buttons){
     while(window.pollEvent(event)){
             if(event.type==sf::Event::Closed) window.close();
@@ -47,6 +47,12 @@ int handle_events(sf::RenderWindow &window, sf::Event &event,const vector<sf::Te
 return -1;
 }
 
+/**
+* This function is meant to handle selected feelings and energy levels and display suggestions based on user choices 
+* @param selected_feelings: string representing selected feeling
+* @param selected_energy: string representing energy level
+* @return the suggestion message string to be displayed 
+*/
 string suggestions(string &selected_feeling,string &selected_energy){
     if(selected_feeling=="Happy"&& selected_energy=="High Energy"){
         return "That's amazing!Reward yourself!";
@@ -97,52 +103,62 @@ string suggestions(string &selected_feeling,string &selected_energy){
     return "you have selected " + selected_feeling + " & " + selected_energy;
 }
 
+
 int main(){
+
+//create a render window with the resolution of 800 by 600
     sf::RenderWindow window(sf::VideoMode(800, 600), "My Feelings");
     sf::Texture image;
      if(!image.loadFromFile("pic_teddy.jpeg")){
         cerr<<"error loading image"<<endl;
         return -1;
     }
-    sf::Sprite sprite(image);
-    sprite.setPosition(500,250);
-    sprite.scale(0.5,0.5);
-    vector<string> feeling={"Happy", "Sad", "Anxious", "Apathetic", "Angry"};
+
+//add the image in the background of the window 
+    sf::Sprite sprite(image); 
+    sprite.setPosition(500,250); //sets the image's position
+    sprite.scale(0.5,0.5); //set the image's scale 
+
+// define the vectors to hold the names of different feelings and energy levels
+    vector<string> feeling={"Happy", "Sad", "Anxious", "Apathetic", "Angry"}; 
     vector<string> energy={"High Energy", "Moderate Energy", "Low Energy"};
-    vector<sf::Text> feeling_buttons(feeling.size());
-    vector<sf::Text> energy_buttons(energy.size());
-    sf::Text reset_button;
-    sf::Font font;
+    vector<sf::Text> feeling_buttons(feeling.size()); //vector that holds the text object of feeling_buttons
+    vector<sf::Text> energy_buttons(energy.size()); //vector that holds the text object of energy_buttons
+    sf::Text reset_button; //create the object that holds the reset_button
+
+//loads the font from the specified file path  
+    sf::Font font; 
     if(!font.loadFromFile("/Library/Fonts/Arial Unicode.ttf")){
         cerr<<"error loading font"<<endl;
         return -1;
-    }
-
-    sf::RectangleShape message_box(sf::Vector2f(500,100));
-    message_box.setFillColor(sf::Color(0,0,0,150));
-    message_box.setPosition(200,250);
+    } 
+//create the text object of message_text which will hold the printed suggestions and set its attributes
     sf::Text message_text;
     message_text.setFont(font);
     message_text.setCharacterSize(24);
     message_text.setFillColor(sf::Color::Magenta);
     message_text.setPosition(50,100);
 
+//create the buttons for each feeling
     for(int i=0;i<feeling.size();++i){
         createbutton(feeling_buttons[i],font,feeling[i],100,50+i*50);
     }
-
+//create the button for each energy level
     for(int i=0;i<energy.size();++i){
         createbutton(energy_buttons[i],font,energy[i],100,50+i*50);
     }
+//create the reset button
     createbutton(reset_button,font,"Go back to main page",500,550);
-    
+
+//set the flags to define the state of the window
     bool show_feelings=true;
     bool show_message=false;
-    while(window.isOpen()){
+//main loop to keep the window open
+    while(window.isOpen()){ 
         sf::Event event;
         int selected_feeling, selected_energy;
         if(show_feelings){
-            selected_feeling=handle_events(window,event,feeling_buttons);
+            selected_feeling=handle_events(window,event,feeling_buttons); //gets the index of the selected feeling
             if(selected_feeling != -1){
                 cout<<feeling[selected_feeling]<<"\n";
                 show_feelings=false;
@@ -155,12 +171,13 @@ int main(){
             }
         }
         else if(!show_message){
-            selected_energy=handle_events(window,event,energy_buttons);
+            selected_energy=handle_events(window,event,energy_buttons); //gets the index of the selected energy
             if(selected_energy!= -1){
                 cout<<energy[selected_energy]<<"\n";
-                string message=suggestions(feeling[selected_feeling],energy[selected_energy]);
+                string message=suggestions(feeling[selected_feeling],energy[selected_energy]); //gets the suggestions based on the selected indeces
                 message_text.setString(message);
                 show_message=true;
+                //clears the window and displays the message
                 window.clear(sf::Color::White);
                 window.draw(sprite);
                 window.draw(message_text);
@@ -169,9 +186,11 @@ int main(){
             }
         }
         else{
+            //checks if the reset_button is clicked
             int clicked_reset=handle_events(window,event,vector<sf::Text>{reset_button});
             if(clicked_reset!=-1){
-                show_feelings=true;
+            //reset the state of the window
+                show_feelings=true; 
                 show_message=false;
                 window.clear(sf::Color::White);
                 for(auto &button:feeling_buttons){
@@ -181,6 +200,7 @@ int main(){
                   window.display();
             }
         }
+        //draw buttons if the message is not shown
         if(!show_message){
             window.clear(sf::Color::White);
             window.draw(sprite);
@@ -189,18 +209,17 @@ int main(){
                     window.draw(button);
                   }
             }
-
             else{
                 for(auto &button:energy_buttons){
-                window.draw(button);
-            }
-
+                    window.draw(button);
+                }
             }
             window.display();
-            }
+        }
 
     
     }
 return 0;
-}    
+}
+
 
