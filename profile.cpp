@@ -6,12 +6,50 @@
 #include <vector>
 #include  <winodwmaxfeelings.cpp>
 
+//uploading the image from the url
 
-sf::Texture loadImageFromUrl(const string& url , const string& path);
-void loadResourcs(sf::Music &music, sf::Font& font);
+sf::Texture loadImageFromUrl (const std::string& url, const std::string& path){
+	sf::Texture texture;
+	sf::Http http(url);
+	sf::Http::Request request(path);
+	sf::Http::Response response = http.sendRequest(request);
 
+	if(response.getSatus()== sf::Http::Response::Ok){
+//error handeling in case the image does not load in the game 
+		const std::string& body = response.getBody();
+		if(!texture.loadFromMemory(body.c_str(),body.size())){
+			std::cerr <<"Could not load image from image\n";
+		}
+
+		else{
+			cout<<"Faild";
+		}
+	}
+	return texture;
+}
+
+//reding the music from the url 
+void loadResourcs(sf::Music& music, sf::Font& font){
+
+	if (!music.openFromFile("https://youtu.be/J3lfFxqa24Q?si=vkjZmT5BSYUYZ-4")){
+		std::cerr<<"could not load music\n";
+		exit(-1);
+	}
+
+	music .setLoop(true);
+
+	if (!font.openFromFile("https://youtu.be/J3lfFxqa24Q?si=vkjZmT5BSYUYZ-4")){
+		std::cerr<<"Could not load front\n";
+		exit(-1);
+
+
+	}
+}
+//user input
 string getUserName();
 int getUserFeeling();
+
+//making the bar and size 
 void setupProgressBar(sf::RectangleShape& progressBar , int feeling){
 	if (feeling == 0 ){
 		progressBar.setSize(sf::Vector2f(200,30));
@@ -45,6 +83,7 @@ int main(){
 
 	std::string name = getUserName();
 	int feeling = getUserFeeling();
+//display the name on top of the page
 
 	sf::Text text (name, font, 30);
 	text.setPosition(10,10);
@@ -70,42 +109,7 @@ int main(){
 	return 0;
 }
 
-sf::Texture loadImageFromUrl (const std::string& url, const std::string& path){
-	sf::Texture texture;
-	sf::Http http(url);
-	sf::Http::Request request(path);
-	sf::Http::Response response = http.sendRequest(request);
 
-	if(response.getSatus()== sf::Http::Response::Ok){
-
-		const std::string& body = response.getBody();
-		if(!texture.loadFromMemory(body.c_str(),body.size())){
-			std::cerr <<"Could not load image from image\n";
-		}
-
-		else{
-			cout<<"Faild";
-		}
-	}
-	return texture;
-}
-
-void loadResourcs(sf::Music& music, sf::Font& font){
-
-	if (!music.openFromFile("https://youtu.be/J3lfFxqa24Q?si=vkjZmT5BSYUYZ-4")){
-		std::cerr<<"could not load music\n";
-		exit(-1);
-	}
-
-	music .setLoop(true);
-
-	if (!font.openFromFile("https://youtu.be/J3lfFxqa24Q?si=vkjZmT5BSYUYZ-4")){
-		std::cerr<<"Could not load front\n";
-		exit(-1);
-
-
-	}
-}
 
 
 
