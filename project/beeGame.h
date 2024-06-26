@@ -4,37 +4,44 @@
 #include <cstdlib>
 #include <ctime>
 #include <string>
+#include<iostream>
 
 int beeGame() {
     sf::RenderWindow window(sf::VideoMode(800, 600), "Bee Game");
 
     sf::Texture backgroundTexture;
-    if (!backgroundTexture.loadFromFile("beeGame/background.jpg")) {
+    if (!backgroundTexture.loadFromFile("./assets/background.jpg")) {
         return -1; // Error loading background image
     }
     sf::Sprite background(backgroundTexture);
 
     sf::Vector2 windowSize = window.getSize();
     sf::Vector2 textureSize = backgroundTexture.getSize();
+
+//propotionally increase the scale of texture
     background.setScale(
         (float)(windowSize.x) / textureSize.x, 
         (float)(windowSize.y) / textureSize.y
     );
 
     sf::Texture playerTexture;
-    if (!playerTexture.loadFromFile("beeGame/player.png")) {
+    if (!playerTexture.loadFromFile("./assets/player.png")) {
         return -1; 
     }
     sf::Sprite player(playerTexture);
     player.setPosition(400, 300); 
-
+//propotionally increase the scale of sprite
     player.setScale(50.0 / playerTexture.getSize().x, 50.0 / playerTexture.getSize().y);
 
     sf::Texture sunflowerTexture;
-    if (!sunflowerTexture.loadFromFile("beeGame/sunflower.png")) {
+    if (!sunflowerTexture.loadFromFile("./assets/sunflower.png")) {
         return -1;
     }
+
     sf::Sprite sunflower(sunflowerTexture);
+
+
+//propotionally increase the scale of sprite
     sunflower.setScale(25.0 / sunflowerTexture.getSize().x, 25.0 / sunflowerTexture.getSize().y);
 
     std::srand(std::time(NULL));
@@ -44,7 +51,7 @@ int beeGame() {
     int score = 0;
 
     sf::Font font;
-    if (!font.loadFromFile("arial/ARIALBD.ttf")) {
+    if (!font.loadFromFile("./assets/ARIALBD.ttf")) {
         return -1;
     }
 
@@ -57,9 +64,8 @@ int beeGame() {
     scoreText.setString("Score: " + std::to_string(score));
 
     // Center the score text
-    sf::FloatRect textRect = scoreText.getLocalBounds();
-    scoreText.setOrigin(textRect.left + textRect.width / 2.0, textRect.top + textRect.height / 2.0);
-    scoreText.setPosition(windowSize.x / 2.0, textRect.height / 2.0 + 10); 
+
+    scoreText.setPosition(windowSize.x / 2.0, 0); 
 
     sf::Clock clock;
     while (window.isOpen()) {
@@ -72,7 +78,7 @@ int beeGame() {
 
         sf::Time deltaTime = clock.restart();
         float dt = deltaTime.asSeconds();
-
+    sf::Vector2 playerPos = player.getPosition();
         sf::Text exitButtonText;
         exitButtonText.setFont(font);
     exitButtonText.setCharacterSize(24);
@@ -81,27 +87,28 @@ int beeGame() {
         exitButtonText.setPosition(windowSize.x/2 - 100 ,30);
 
         sf::Vector2 movement(0.0f, 0.0f);
-        if(!(player.getGlobalBounds().width >= windowSize.x-50) && !(player.getGlobalBounds().width <= 10) ){
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
             movement.x -= playerSpeed * dt;
             player.setRotation(270); 
+        }
+        if(playerPos.x > 800 || playerPos.y > 600 || playerPos.x < 0 || playerPos.y < 0 ) {
+            window.close();
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
             movement.x += playerSpeed * dt;
             player.setRotation(90); 
         }
-        }
-        if(!(player.getGlobalBounds().height >= windowSize.y-50) && !(player.getGlobalBounds().height <= 10) ){
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
             movement.y -= playerSpeed * dt;
             player.setRotation(0); 
         }
+        
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
             movement.y += playerSpeed * dt;
             player.setRotation(180); 
         }
-        }
-
+        
+        
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
             window.close();
@@ -118,9 +125,8 @@ int beeGame() {
             score++;
             scoreText.setString("Score: " + std::to_string(score));
 
-            sf::FloatRect textRect = scoreText.getLocalBounds();
-            scoreText.setOrigin(textRect.left + textRect.width / 2.0, textRect.top + textRect.height / 2.0);
-            scoreText.setPosition(windowSize.x / 2.0, textRect.height / 2.0 + 10); 
+
+            scoreText.setPosition(windowSize.x / 2.0, 0); 
 
             float x = (float)(std::rand() % (windowSize.x - (int)(sunflower.getGlobalBounds().width)));
             float y = (float)(std::rand() % (windowSize.y - (int)(sunflower.getGlobalBounds().height)));
