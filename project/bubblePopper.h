@@ -6,7 +6,7 @@
 #include <string>
 #include<iostream>
 
-int main() {
+int bubblePopper() {
     sf::RenderWindow window(sf::VideoMode(800, 600), "Bee Game");
 
     sf::Texture backgroundTexture;
