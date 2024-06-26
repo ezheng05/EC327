@@ -3,20 +3,34 @@
 #include <SFML/Network.hpp>
 #include <iostream>
 #include <string>
+#include <vector>
+#include  <winodwmaxfeelings.cpp>
+
 
 sf::Texture loadImageFromUrl(const string& url , const string& path);
-void loadResourcs(sf::Music &music, sf::Front& font);
+void loadResourcs(sf::Music &music, sf::Font& font);
 
 string getUserName();
 int getUserFeeling();
-void setupProgressBar(sf::RectangleShape& progressBar , int feeling);
+void setupProgressBar(sf::RectangleShape& progressBar , int feeling){
+	if (feeling == 0 ){
+		progressBar.setSize(sf::Vector2f(200,30));
+		progressBar.setFillColor(sf::Color::Green);
+	}
+
+	else if(feeling == 1){
+		progressBar.setSize(sf::Vector2f(150,30));
+		progressBar.setFillColor(sf::Color::Red);
+	}
+}
+
 
 int main(){
 
 	sf::RenderWindow window(sf::VideoMode(800,600), "My Profile");
 
 	sf::Music music;
-	sf::Front font;
+	sf::Font font;
 
 	loadResourcs(music, font);
 	music.play();
@@ -76,7 +90,7 @@ sf::Texture loadImageFromUrl (const std::string& url, const std::string& path){
 	return texture;
 }
 
-void loadResourcs(sf::Music& music, sf::Front& font){
+void loadResourcs(sf::Music& music, sf::Font& font){
 
 	if (!music.openFromFile("https://youtu.be/J3lfFxqa24Q?si=vkjZmT5BSYUYZ-4")){
 		std::cerr<<"could not load music\n";
@@ -93,21 +107,6 @@ void loadResourcs(sf::Music& music, sf::Front& font){
 	}
 }
 
-void setupProgressBar(sf::RectangleShape& progressBar, int feeling){
-	if (feeling == 0 ){
-		progressBar.setSize(sf::Vector2f(50,30));
-		progressBar.setFillColor(sf::Color::Red);
-	}
 
-	else if (feeling == 1){
-		progressBar.setSize(sf::Vector2f(150,30));
-		progressBar.setFillColor(sf::Color::Organe;)
-	}
-
-	else if(feeling == 2){
-		progressBar.setSize(sf::Vector2f(200,30));
-		progressBar.setFillColor(sf::Color::Green);
-	}
-}
 
 
