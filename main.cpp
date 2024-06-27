@@ -11,7 +11,10 @@
 
 using std::cout;
 
+vector<pair<string, string>> feeling_entries;
+
 int main() {
+    bool scale = true;
 
     sf::RenderWindow window(sf::VideoMode(800,570), "Home Page");
 
@@ -29,11 +32,21 @@ int main() {
         return -1;
     }
 
+    // load and play music
+    sf::Music music;
+    if (!music.openFromFile("rain.ogg")) {
+        cout << "Error playing sound\n";
+        return -1;
+    }
+    music.setLoop(true);
+    music.play();
+
     // create and position background image sprite
     sf::Sprite background(backgroundTexture);
     sf::FloatRect spriteBounds = background.getGlobalBounds();
     background.setOrigin(spriteBounds.left + spriteBounds.width/2, spriteBounds.top + spriteBounds.height / 2.0f);
     background.setPosition(400,300); // center of window
+    bool move_right = true;
 
     // user instructions
     sf::Text instructions;
@@ -63,26 +76,18 @@ int main() {
 
     // games button #2
     // game 1
-    sf::RectangleShape games_button1(sf::Vector2f(100,100));
+    sf::RectangleShape games_button1(sf::Vector2f(200,100));
     sf::FloatRect gamesBounds1 = games_button1.getLocalBounds();
     games_button1.setOrigin(gamesBounds1.left + gamesBounds1.width/2, gamesBounds1.top + gamesBounds1.height/2);
-    games_button1.setFillColor(sf::Color(70,200,50));
-    games_button1.setPosition(100,450);
+    games_button1.setFillColor(sf::Color::Blue);
+    games_button1.setPosition(150,450);
     // game 2
-    sf::RectangleShape games_button2(sf::Vector2f(100,100));
+    sf::RectangleShape games_button2(sf::Vector2f(200,100));
     sf::FloatRect gamesBounds2 = games_button2.getLocalBounds();
     games_button2.setOrigin(gamesBounds2.left + gamesBounds2.width/2, gamesBounds2.top + gamesBounds2.height/2);
-    games_button2.setFillColor(sf::Color::Blue);
-    games_button2.setPosition(200,450);
-    // games text
-    sf::Text games_text;
-    games_text.setFont(font);
-    games_text.setString("Play de-stress games:");
-    games_text.setCharacterSize(17);
-    games_text.setFillColor(sf::Color::Black);
-    sf::FloatRect gamestextBounds = games_text.getLocalBounds();
-    games_text.setOrigin(gamestextBounds.left + gamestextBounds.width/2, gamestextBounds.top + gamestextBounds.height/2);
-    games_text.setPosition(150, 385);
+    games_button2.setFillColor(sf::Color(150, 50, 250));
+    games_button2.setPosition(650,450);
+    
     // game 1 text
     sf::Text games_text1;
     games_text1.setFont(font);
@@ -91,16 +96,16 @@ int main() {
     games_text1.setFillColor(sf::Color::White);
     sf::FloatRect gamestextBounds1 = games_text1.getLocalBounds();
     games_text1.setOrigin(gamestextBounds1.left + gamestextBounds1.width/2, gamestextBounds1.top + gamestextBounds1.height/2);
-    games_text1.setPosition(100, 450);
+    games_text1.setPosition(150, 450);
     // game 2 text
     sf::Text games_text2;
     games_text2.setFont(font);
-    games_text2.setString("Bubble\nPopper");
+    games_text2.setString("Bubble Popper");
     games_text2.setCharacterSize(16);
     games_text2.setFillColor(sf::Color::White);
     sf::FloatRect gamestextBounds2 = games_text2.getLocalBounds();
     games_text2.setOrigin(gamestextBounds2.left + gamestextBounds2.width/2, gamestextBounds2.top + gamestextBounds2.height/2);
-    games_text2.setPosition(200, 450);
+    games_text2.setPosition(650, 450);
 
     // dice button #3
     sf::RectangleShape dice_button(sf::Vector2f(200,100));
@@ -118,21 +123,7 @@ int main() {
     dice_text.setOrigin(dicetextBounds.left + dicetextBounds.width/2, dicetextBounds.top + dicetextBounds.height/2);
     dice_text.setPosition(650, 150);
 
-    // profile/personal button #4
-    sf::RectangleShape profile_button(sf::Vector2f(200,100));
-    sf::FloatRect profileBounds = profile_button.getLocalBounds();
-    profile_button.setOrigin(profileBounds.left + profileBounds.width/2, profileBounds.top + profileBounds.height/2);
-    profile_button.setFillColor(sf::Color(150, 50, 250));
-    profile_button.setPosition(650,450);
-    // profile text
-    sf::Text profile_text;
-    profile_text.setFont(font);
-    profile_text.setString("My profile");
-    profile_text.setCharacterSize(16);
-    profile_text.setFillColor(sf::Color::White);
-    sf::FloatRect proftextBounds = profile_text.getLocalBounds();
-    profile_text.setOrigin(proftextBounds.left + proftextBounds.width/2, proftextBounds.top + proftextBounds.height/2);
-    profile_text.setPosition(650, 450);
+    window.setFramerateLimit(20);
 
     while (window.isOpen()) {
         sf::Event event;
@@ -144,15 +135,43 @@ int main() {
                 window.close();
             } else if (event.type == sf::Event::MouseButtonPressed) {
                 if (feelings_button.getGlobalBounds().contains(translated_pos)) {
+                    cout << "Feelings survey open\n";
                     feelings();
                 } else if (games_button1.getGlobalBounds().contains(translated_pos)) {
+                    cout << "Bee game open\n";
                     beeGame();
                 } else if (games_button2.getGlobalBounds().contains(translated_pos)) {
+                    cout << "Bubble popper game open\n";
                     bubblePopper();
                 } else if (dice_button.getGlobalBounds().contains(translated_pos)) {
+                    cout << "Dice roll open\n";
                     diceroll();
                 }
             }
+        }
+
+        // move bee back and forth
+        sf::Vector2f pos = background.getPosition();
+        if (move_right) {
+            background.move(3,0);
+            if (pos.x >= 450)
+                move_right = false;
+        } else {
+            background.move(-3,0);
+            if (pos.x <= 350)
+                move_right = true;
+        }
+
+        // animate text
+        sf::Vector2f size = instructions.getScale();
+        if (scale) {
+            instructions.setScale(size.x+0.005, size.y+0.005);
+            if (size.x >= 1.05)
+                scale = false;
+        } else {
+            instructions.setScale(size.x-0.005, size.y-0.005);
+            if (size.x <= 0.95)
+                scale = true;
         }
 
         window.clear(sf::Color::White);
@@ -162,13 +181,11 @@ int main() {
         window.draw(feelings_text);
         window.draw(games_button1);
         window.draw(games_button2);
-        window.draw(games_text);
         window.draw(games_text1);
         window.draw(games_text2);
         window.draw(dice_button);
         window.draw(dice_text);
-        window.draw(profile_button);
-        window.draw(profile_text);
         window.display();
     }
+    return 0;
 }
