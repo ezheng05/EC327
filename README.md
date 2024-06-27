@@ -15,7 +15,7 @@ Video Link: https://youtu.be/2FM6CKtAQZQ
 —
 ## Running the program
 
-g++ main.cpp  -std=c++17 -I/opt/homebrew/Cellar/sfml/2.6.1/include -o app -L/opt/homebrew/Cellar/sfml/2.6.1/lib -lsfml-graphics -lsfml-window -lsfml-system
+g++ --std=c++17 main.cpp profile.cpp feelings.cpp -I/opt/homebrew/Cellar/sfml/2.6.1/include -o app -L/opt/homebrew/Cellar/sfml/2.6.1/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
 Make sure to include the necessary libraries and SFML components
 
