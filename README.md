@@ -17,7 +17,7 @@ Video Link: https://youtu.be/2FM6CKtAQZQ
 
 g++ --std=c++17 main.cpp profile.cpp feelings.cpp -I/opt/homebrew/Cellar/sfml/2.6.1/include -o app -L/opt/homebrew/Cellar/sfml/2.6.1/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
-Make sure to include the necessary libraries and SFML components
+Make sure to include the necessary libraries and SFML components. The project folder includes images and other necessary components to run the application.
 
 ## Application Overview
 
