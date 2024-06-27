@@ -11,7 +11,7 @@
 ### Links
 GitHub Repository: [BeeBetter on GitHub](https://github.com/ezheng05/EC327.git)
 
-
+Video Link: https://youtu.be/2FM6CKtAQZQ 
 —
 ## Running the program
 
