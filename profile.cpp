@@ -1,77 +1,14 @@
 #include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-#include <SFML/Network.hpp>
 #include <iostream>
 #include <string>
-#include <vector>
 #include  <winodwmaxfeelings.cpp>
-
-//uploading the image from the url
-
-sf::Texture loadImageFromUrl (const std::string& url, const std::string& path){
-	sf::Texture texture;
-	sf::Http http(url);
-	sf::Http::Request request(path);
-	sf::Http::Response response = http.sendRequest(request);
-
-	if(response.getSatus()== sf::Http::Response::Ok){
-//error handeling in case the image does not load in the game 
-		const std::string& body = response.getBody();
-		if(!texture.loadFromMemory(body.c_str(),body.size())){
-			std::cerr <<"Could not load image from image\n";
-		}
-
-		else{
-			cout<<"Faild";
-		}
-	}
-	return texture;
-}
-
-//reding the music from the url 
-void loadResourcs(sf::Music& music, sf::Font& font){
-
-	if (!music.openFromFile("https://youtu.be/J3lfFxqa24Q?si=vkjZmT5BSYUYZ-4")){
-		std::cerr<<"could not load music\n";
-		exit(-1);
-	}
-
-	music .setLoop(true);
-
-	if (!font.openFromFile("https://youtu.be/J3lfFxqa24Q?si=vkjZmT5BSYUYZ-4")){
-		std::cerr<<"Could not load front\n";
-		exit(-1);
-
-
-	}
-}
-//user input
-string getUserName();
-int getUserFeeling();
-
-//making the bar and size 
-void setupProgressBar(sf::RectangleShape& progressBar , int feeling){
-	if (feeling == 0 ){
-		progressBar.setSize(sf::Vector2f(200,30));
-		progressBar.setFillColor(sf::Color::Green);
-	}
-
-	else if(feeling == 1){
-		progressBar.setSize(sf::Vector2f(150,30));
-		progressBar.setFillColor(sf::Color::Red);
-	}
-}
 
 
 int main(){
 
 	sf::RenderWindow window(sf::VideoMode(800,600), "My Profile");
 
-	sf::Music music;
 	sf::Font font;
-
-	loadResourcs(music, font);
-	music.play();
 
 	sf::Texture texture = loadImageFromUrl ("https://images.app.goo.gl/cqZoWjtomP2e5eRc6");
 	if (texture.getSize().x==0){
@@ -79,18 +16,62 @@ int main(){
 		return -1;
 	}
 
-	sf::Sprite sprite(texture);
 
-	std::string name = getUserName();
-	int feeling = getUserFeeling();
-//display the name on top of the page
+	sf::Text nameText;
+	nameText.setFont(font);
+	nameText.setCharacterSize(24);
+	nameText.FillColor(sf::Color::White);
+	nameText.setPosition(50,10);
+	string userName;
 
-	sf::Text text (name, font, 30);
-	text.setPosition(10,10);
+	//display the input field 
 
-	sf::RectangleShape progressBar(sf::Vector2f(200,30));
-	progressBar.setPosition(300,550);
-	setupProgressBar(progressBar, feeling);
+	bool isEnteringName = true;
+	while (isEnteringName && window.isOpen()){
+		sf::Event event;
+		while (window.pollEvent(event)){
+			if (event.type == sf::Event::Closed)
+				window.close();
+			else if (event.type == Event::TextEnterned){
+				if (event.text.unicode<128){
+				if(event.text.unicode == '\b'&& !userName.empty()){
+					userName += static_cast<char>(event.text.unicode);
+				}
+
+				nameText.setString("Name:"+userName);
+
+			}
+				}
+			else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Return){
+				is isEnteringName = false;
+			}
+		}
+
+		window.clear(sf::Color::Black);
+		window.draw(nameText);
+		window.display();
+	}
+
+	//progress bar 
+	st::RectangleShape progressBar(sf::Vector2f(300,30));
+	progressBar.setPosition(400,400);
+
+
+	std::string slected Emotion = "Happy";
+	float progress = 0.5f;
+	progressBar.setSize(sf::Vector2f(300*progress,30));
+	progressBar.setFillColor(sf::Color::Green);
+
+
+	std::string slected Emotion = "Sad";
+	float progress = 0.1f;
+	progressBar.setSize(sf::Vector2f(50*progress,5));
+	progressBar.setFillColor(sf::Color::Red);
+
+	std::string slected Emotion = "Anxies";
+	float prograss = 0.3f;
+	progressBar.setSize(sf::Vector2f(100*progress, 10));
+	progressBar.setFillColor(sf::Color::Orange);
 
 	while(window.isOpen()){
 		sf::Event event;
