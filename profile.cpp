@@ -68,7 +68,7 @@ int main(){
 	progressBar.setSize(sf::Vector2f(50*progress,5));
 	progressBar.setFillColor(sf::Color::Red);
 
-	std::string slected Emotion = "Anxies";
+	std::string slected Emotion = "Anxity";
 	float prograss = 0.3f;
 	progressBar.setSize(sf::Vector2f(100*progress, 10));
 	progressBar.setFillColor(sf::Color::Orange);
